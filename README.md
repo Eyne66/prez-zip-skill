@@ -1,8 +1,5 @@
 # prez-zip-skill
-codex-skill
-# prez-zip skill
-
-`prez-zip` 是一个给 Codex 使用的可复用汇报 HTML 生成 Skill。
+`prez-zip` 是一个在 Codex 使用的可复用汇报 HTML 生成 Skill。
 
 你只需要专注：你想说什么、想给大家看什么图。把口头汇报稿、PDF、Word、图片和图片位置需求放进一个文件夹，调用这个 Skill，它会帮你生成极简发布会风格的 HTML 演示页。以后的汇报手拿把掐，自用款非常赞，是花了五六个小时调出来的最喜欢的风格。
 
