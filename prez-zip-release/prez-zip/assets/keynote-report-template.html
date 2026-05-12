@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <style>
+    :root {
+      --ink: #11120f;
+      --muted: rgba(17,18,15,.58);
+      --paper: #eef1e8;
+      --glass: rgba(246,247,241,.5);
+      --line: rgba(17,18,15,.12);
+      --red: #b43c35;
+      --blue: #255d92;
+      --green: #436d46;
+      --mx: 50vw;
+      --my: 50vh;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--paper); color: var(--ink); }
+    body { margin: 0; min-height: 100vh; overflow-x: hidden; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif; letter-spacing: 0; background: var(--paper); }
+    .progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 50; background: rgba(17,18,15,.08); }
+    .progress span { display: block; width: 0%; height: 100%; background: linear-gradient(90deg, var(--green), var(--red), var(--blue)); }
+    .slide { min-height: 100vh; padding: 132px clamp(28px, 7vw, 120px) 90px; display: grid; align-content: center; position: relative; border-bottom: 1px solid rgba(17,18,15,.08); }
+    .cover { isolation: isolate; align-content: end; padding-bottom: clamp(70px, 12vh, 150px); }
+    .cover::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url("{{COVER_IMAGE}}") center / cover no-repeat; }
+    .cover::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(246,247,241,.88) 0 38%, rgba(246,247,241,.38) 66%, rgba(246,247,241,.16)); }
+    .eyebrow { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 26px; }
+    h1, h2 { margin: 0; max-width: 1060px; font-family: Georgia, "Times New Roman", "Songti SC", serif; font-weight: 400; letter-spacing: 0; line-height: .96; }
+    h1 { font-size: clamp(64px, 9vw, 142px); }
+    h2 { font-size: clamp(54px, 7vw, 116px); }
+    .sub { max-width: 780px; margin: 34px 0 0; font-size: clamp(20px, 2.5vw, 34px); line-height: 1.55; color: rgba(17,18,15,.76); }
+    .fade { display: block; color: rgba(17,18,15,.2); filter: blur(4px); }
+    .red { color: var(--red); }
+    .blue { color: var(--blue); }
+    .green { color: var(--green); }
+    .quote { margin-top: 42px; max-width: 1120px; font-family: Georgia, "Times New Roman", "Songti SC", serif; font-size: clamp(34px, 5vw, 82px); line-height: 1.12; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 48px; max-width: 1160px; }
+    .card { min-height: 230px; padding: 26px; border-radius: 18px; border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(18px); transition: transform .28s ease, background .28s ease; }
+    .card:hover { transform: translateY(-10px); background: rgba(246,247,241,.7); }
+    .mark { font-family: Georgia, serif; font-size: 17px; color: rgba(17,18,15,.32); margin-bottom: 28px; }
+    .card b { display: block; font-family: Georgia, "Times New Roman", "Songti SC", serif; font-weight: 400; font-size: clamp(30px, 3.2vw, 48px); margin-bottom: 16px; line-height: 1.04; }
+    .card p { margin: 0; color: rgba(17,18,15,.66); line-height: 1.65; font-size: 17px; }
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px; max-width: 1180px; margin-top: 48px; }
+    .panel { min-height: 360px; padding: 30px; border-radius: 20px; border: 1px solid var(--line); background: rgba(246,247,241,.5); backdrop-filter: blur(18px); }
+    .panel h3 { margin: 0 0 24px; font-family: Georgia, "Times New Roman", "Songti SC", serif; font-weight: 400; font-size: clamp(38px, 4.6vw, 72px); line-height: 1; }
+    .line { display: grid; gap: 12px; font-size: clamp(18px, 2vw, 25px); color: rgba(17,18,15,.68); }
+    .line span { padding-top: 12px; border-top: 1px solid rgba(17,18,15,.12); }
+    .image-end { min-height: 100vh; padding: 0; display: block; background: #d8e0e3; border-bottom: 0; }
+    .image-end figure { position: relative; margin: 0; min-height: 100vh; }
+    .image-end img { width: 100%; min-height: 100vh; object-fit: cover; display: block; }
+    .image-end figcaption { position: absolute; left: clamp(24px, 6vw, 96px); bottom: clamp(24px, 7vh, 86px); padding: 16px 20px; border-radius: 999px; background: rgba(238,241,232,.68); backdrop-filter: blur(18px); font-family: Georgia, "Times New Roman", "Songti SC", serif; font-size: clamp(22px, 3vw, 44px); color: var(--ink); }
+    @media (max-width: 940px) { .slide { padding: 118px 24px 72px; } .cards, .split { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  {{SECTIONS}}
+  <script>
+    const progress = document.querySelector("#progress");
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${max > 0 ? scrollY / max * 100 : 0}%`;
+    }
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+  </script>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>于坚诗歌研究选题汇报</title>
+  <style>
+    :root {
+      --ink: #11120f;
+      --muted: rgba(17, 18, 15, .58);
+      --fog: rgba(246, 247, 241, .74);
+      --glass: rgba(246, 247, 241, .48);
+      --line: rgba(17, 18, 15, .12);
+      --red: #b43c35;
+      --blue: #255d92;
+      --green: #436d46;
+      --gold: #9a7a2f;
+      --mx: 50vw;
+      --my: 50vh;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #eef1e8;
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      letter-spacing: 0;
+      background: #eef1e8;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 3px;
+      z-index: 50;
+      background: rgba(17,18,15,.08);
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--red), var(--blue));
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(17,18,15,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,18,15,.05) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: radial-gradient(circle at var(--mx) var(--my), transparent 0 230px, #000 520px);
+    }
+
+    .fog-ring {
+      position: fixed;
+      left: var(--mx);
+      top: var(--my);
+      z-index: 35;
+      width: 300px;
+      height: 190px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255,255,255,.12), transparent 72%);
+      filter: blur(18px);
+      opacity: .28;
+    }
+
+    .slide {
+      min-height: 100vh;
+      padding: 132px clamp(28px, 7vw, 120px) 90px;
+      display: grid;
+      align-content: center;
+      position: relative;
+      border-bottom: 1px solid rgba(17,18,15,.08);
+    }
+
+    .opening {
+      isolation: isolate;
+      align-content: end;
+      padding-bottom: clamp(70px, 12vh, 150px);
+      color: #10110e;
+    }
+
+    .opening::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: url("底图.png") center / cover no-repeat;
+      filter: saturate(.98) contrast(.98);
+      transform: scale(1.01);
+    }
+
+    .opening::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(246,247,241,.88) 0 38%, rgba(246,247,241,.38) 66%, rgba(246,247,241,.16));
+    }
+
+    .cover-date {
+      margin: 0 0 18px;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(42px, 6vw, 92px);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .cover-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 58px);
+      letter-spacing: 0;
+      font-weight: 500;
+    }
+
+    .slide.narrow {
+      max-width: 1180px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    h1, h2 {
+      margin: 0;
+      max-width: 1060px;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: .96;
+    }
+
+    h1 {
+      font-size: clamp(64px, 9vw, 142px);
+    }
+
+    h2 {
+      font-size: clamp(54px, 7vw, 116px);
+    }
+
+    .sub {
+      max-width: 780px;
+      margin: 34px 0 0;
+      font-size: clamp(20px, 2.5vw, 34px);
+      line-height: 1.55;
+      color: rgba(17,18,15,.76);
+    }
+
+    .fade {
+      display: block;
+      color: rgba(17,18,15,.2);
+      filter: blur(4px);
+    }
+
+    .red { color: var(--red); }
+    .blue { color: var(--blue); }
+    .green { color: var(--green); }
+
+    .quote {
+      margin-top: 42px;
+      max-width: 1120px;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(34px, 5vw, 82px);
+      line-height: 1.12;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 48px;
+      max-width: 1160px;
+    }
+
+    .card {
+      min-height: 230px;
+      padding: 26px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: transform .28s ease, background .28s ease, filter .28s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: rgba(246,247,241,.7);
+      filter: saturate(1.1);
+    }
+
+    .mark {
+      font-family: Georgia, serif;
+      font-size: 17px;
+      color: rgba(17,18,15,.32);
+      margin-bottom: 28px;
+    }
+
+    .card b {
+      display: block;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-weight: 400;
+      font-size: clamp(30px, 3.2vw, 48px);
+      margin-bottom: 16px;
+      line-height: 1.04;
+    }
+
+    .card p {
+      margin: 0;
+      color: rgba(17,18,15,.66);
+      line-height: 1.65;
+      font-size: 17px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 26px;
+      max-width: 1180px;
+      margin-top: 48px;
+    }
+
+    .panel {
+      min-height: 360px;
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(246,247,241,.5);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .panel h3 {
+      margin: 0 0 24px;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-weight: 400;
+      font-size: clamp(38px, 4.6vw, 72px);
+      line-height: 1;
+    }
+
+    .line {
+      display: grid;
+      gap: 12px;
+      font-size: clamp(18px, 2vw, 25px);
+      color: rgba(17,18,15,.68);
+    }
+
+    .line span {
+      padding-top: 12px;
+      border-top: 1px solid rgba(17,18,15,.12);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(128px, 1fr));
+      gap: 10px;
+      max-width: 1200px;
+      margin-top: 48px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .step {
+      min-height: 210px;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(246,247,241,.52);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      cursor: pointer;
+      transition: transform .24s ease, background .24s ease, color .24s ease;
+    }
+
+    .step:hover, .step.active {
+      transform: translateY(-10px);
+      background: rgba(17,18,15,.88);
+      color: #f4f5ef;
+    }
+
+    .step i {
+      display: block;
+      font-style: normal;
+      font-family: Georgia, serif;
+      color: var(--red);
+      margin-bottom: 36px;
+    }
+
+    .step b {
+      display: block;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .step span {
+      opacity: .68;
+      line-height: 1.45;
+    }
+
+    .flow-note {
+      margin-top: 28px;
+      max-width: 880px;
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(30px, 4vw, 62px);
+      line-height: 1.16;
+    }
+
+    .table {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr 1fr 1fr 1fr 1.2fr;
+      max-width: 1240px;
+      margin-top: 48px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(246,247,241,.5);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .cell {
+      min-height: 86px;
+      padding: 16px;
+      border-right: 1px solid rgba(17,18,15,.1);
+      border-bottom: 1px solid rgba(17,18,15,.1);
+      color: rgba(17,18,15,.66);
+      line-height: 1.45;
+    }
+
+    .head {
+      color: var(--ink);
+      font-weight: 700;
+      background: rgba(246,247,241,.72);
+    }
+
+    .large-word {
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(82px, 13vw, 190px);
+      line-height: .9;
+      margin-top: 32px;
+      color: rgba(17,18,15,.86);
+    }
+
+    #self .large-word {
+      font-size: clamp(44px, 7vw, 98px);
+      line-height: 1.08;
+    }
+
+    .end-image {
+      min-height: 100vh;
+      padding: 0;
+      display: block;
+      background: #d8e0e3;
+      border-bottom: 0;
+    }
+
+    .end-image figure {
+      position: relative;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .end-image img {
+      width: 100%;
+      min-height: 100vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .end-image figcaption {
+      position: absolute;
+      left: clamp(24px, 6vw, 96px);
+      bottom: clamp(24px, 7vh, 86px);
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: rgba(238,241,232,.68);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-family: Georgia, "Times New Roman", "Songti SC", serif;
+      font-size: clamp(22px, 3vw, 44px);
+      color: var(--ink);
+    }
+
+    .slide-mode .slide {
+      scroll-snap-align: start;
+    }
+
+    .slide-mode {
+      scroll-snap-type: y mandatory;
+    }
+
+    @media (max-width: 940px) {
+      .slide {
+        padding: 118px 24px 72px;
+      }
+      .cards, .split {
+        grid-template-columns: 1fr;
+      }
+      .table {
+        grid-template-columns: minmax(160px, 1fr);
+      }
+      .cell {
+        border-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="fog-ring" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <main>
+    <section class="slide opening" id="opening">
+      <p class="cover-date">2026.5.12</p>
+      <p class="cover-title">于坚诗歌研究第六组发言</p>
+    </section>
+
+    <section class="slide" id="tech">
+      <div class="eyebrow">technology</div>
+      <h2>Science × Engineering</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="mark">01</div>
+          <b>Science</b>
+          <p>问为什么<br>发现规律<br>解释世界</p>
+        </article>
+        <article class="card">
+          <div class="mark">02</div>
+          <b>Engineering</b>
+          <p>问怎么做<br>解决问题<br>落地工具</p>
+        </article>
+        <article class="card">
+          <div class="mark">03</div>
+          <b>AI</b>
+          <p>新质生产力<br>心智生产力<br>击穿边界</p>
+        </article>
+      </div>
+      <div class="quote red">AI 如何参与研究过程？</div>
+    </section>
+
+    <section class="slide" id="blackbox">
+      <div class="eyebrow">explainable ai</div>
+      <h2>人的直觉，好似 AI 黑箱</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="mark blue">AutoBM</div>
+          <b>数据 → 模型</b>
+          <p>从行为数据中<br>生成可解释模型</p>
+        </article>
+        <article class="card">
+          <div class="mark blue">PrimeNash</div>
+          <b>规则 → 审计</b>
+          <p>生成策略<br>评估策略<br>验证审计</p>
+        </article>
+        <article class="card">
+          <div class="mark">文学研究</div>
+          <b>解释参数</b>
+          <p>捕捉直觉<br>翻译直觉<br>验证直觉</p>
+        </article>
+      </div>
+      <p class="sub">讲座推荐：《当机器学会策略思考》</p>
+    </section>
+
+    <section class="slide" id="punctum">
+      <div class="eyebrow">punctum</div>
+      <h2>选题从一个“不协调感”开始</h2>
+      <div class="split">
+        <div class="panel">
+          <h3>自然书写</h3>
+          <div class="line">
+            <span>乌鸦 / 植物 / 河流 / 石头</span>
+            <span>反符号化</span>
+            <span>反陌生化</span>
+            <span>反隐喻化</span>
+            <span class="green">尊重生命质感</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>女性书写</h3>
+          <div class="line">
+            <span>少女 / 修女 / 身体 / 观看</span>
+            <span>类型化</span>
+            <span>隐喻化</span>
+            <span>被观看感</span>
+            <span class="red">性别无意识？</span>
+          </div>
+        </div>
+      </div>
+      <div class="quote">自然摆脱符号。<span class="fade">女性重新成为符号？</span></div>
+    </section>
+
+    <section class="slide" id="question">
+      <div class="eyebrow">research question</div>
+      <h2>表达机制的差异</h2>
+      <p class="sub">一个在自然书写中具有反符号化倾向的诗人，为什么在女性书写中仍可能保留某种符号化？</p>
+      <div class="large-word red">矛盾</div>
+    </section>
+
+    <section class="slide" id="chain">
+      <div class="eyebrow">ai collaboration</div>
+      <h2>从感受，到证据链</h2>
+      <div class="flow">
+        <div class="step active" data-note="自然书写反符号化，女性书写可能重新符号化。"><i>01</i><b>直觉输入</b><span>不协调感</span></div>
+        <div class="step" data-note="把“我不舒服”改写成温和的研究问题。"><i>02</i><b>问题转写</b><span>表达机制</span></div>
+        <div class="step" data-note="主体性、身体化、隐喻化、描写焦点。"><i>03</i><b>维度建立</b><span>可标记</span></div>
+        <div class="step" data-note="自然对象与女性对象相关片段。"><i>04</i><b>材料处理</b><span>提取分类</span></div>
+        <div class="step" data-note="通读修正，处理关键词遗漏。"><i>05</i><b>人工复核</b><span>回到细读</span></div>
+        <div class="step" data-note="统计与分类作为证据链的起点。"><i>06</i><b>结果使用</b><span>再解释</span></div>
+      </div>
+      <div class="flow-note" id="flowNote">自然书写反符号化，女性书写可能重新符号化。</div>
+    </section>
+
+    <section class="slide" id="table">
+      <div class="eyebrow">minimum viable research</div>
+      <h2>让“观察”先于“解释”</h2>
+      <div class="table">
+        <div class="cell head">诗句/片段</div>
+        <div class="cell head">对象类型</div>
+        <div class="cell head">主体性</div>
+        <div class="cell head">身体化</div>
+        <div class="cell head">隐喻/象征化</div>
+        <div class="cell head">初步备注</div>
+        <div class="cell">乌鸦 / 植物 / 河流</div>
+        <div class="cell">自然对象</div>
+        <div class="cell">飞 / 啄食 / 生长</div>
+        <div class="cell">较弱</div>
+        <div class="cell">是否被抽象</div>
+        <div class="cell">接近生物本身</div>
+        <div class="cell">少女 / 修女 / 女性身体</div>
+        <div class="cell">女性对象</div>
+        <div class="cell">行动主体 / 被观看</div>
+        <div class="cell">外貌 / 气味 / 身体</div>
+        <div class="cell">欲望 / 纯洁 / 情绪</div>
+        <div class="cell">类型化表达</div>
+      </div>
+      <p class="sub">最小可执行版本：把模糊感受变成可重复检查的文本记录。</p>
+    </section>
+
+    <section class="slide" id="blockers">
+      <div class="eyebrow">卡点</div>
+      <h2>AI 能做什么<br><span class="fade">我又必须自己做什么</span></h2>
+      <div class="cards">
+        <article class="card">
+          <div class="mark red">01</div>
+          <b>文本素材太多</b>
+          <p>时段<br>作品集版次<br>研究对象</p>
+        </article>
+        <article class="card">
+          <div class="mark red">02</div>
+          <b>关键词选择</b>
+          <p>女<br>少女<br>《苹果的法则》</p>
+        </article>
+        <article class="card">
+          <div class="mark red">03</div>
+          <b>真正判断</b>
+          <p>问题价值<br>证据成立<br>解释限度</p>
+        </article>
+      </div>
+      <div class="quote">AI 可以做梯子。</div>
+    </section>
+
+    <section class="slide" id="literature">
+      <div class="eyebrow">back to literature</div>
+      <h2>理解如何发生，又如何变化</h2>
+      <div class="split">
+        <div class="panel">
+          <h3>那个时代</h3>
+          <div class="line">
+            <span>如何理解自然</span>
+            <span>如何理解身体</span>
+            <span>如何理解女性</span>
+            <span>如何理解世界</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>今天的我们</h3>
+          <div class="line">
+            <span>重新阅读</span>
+            <span>感受结构变化</span>
+            <span>默认视角显影</span>
+            <span>性别无意识</span>
+          </div>
+        </div>
+      </div>
+      <div class="quote">在过去和今天之间，寻找一个可以被解释的矛盾。</div>
+    </section>
+
+    <section class="slide" id="ethics">
+      <div class="eyebrow">language / corpus / ethics</div>
+      <h2>语料也有价值结构</h2>
+      <div class="cards">
+        <article class="card"><div class="mark">文本</div><b>语言习惯</b><p>时代<br>群体<br>表达惯性</p></article>
+        <article class="card"><div class="mark">AI</div><b>训练语料</b><p>互联网<br>文学文本<br>历史文本</p></article>
+        <article class="card"><div class="mark">伦理</div><b>默认视角</b><p>辨认<br>怀疑<br>再解释</p></article>
+      </div>
+      <div class="quote">自洽，不等于真理。<span class="fade">结构漂亮，不等于证据成立。</span></div>
+    </section>
+
+    <section class="slide" id="self">
+      <div class="eyebrow">method</div>
+      <h2>把自己作为方法</h2>
+      <div class="large-word">经验<br>感受<br>追问</div>
+      <p class="sub">从“不舒服”的阅读感受出发，通过 AI 协作把感受结构化，再回到文本里寻找证据。</p>
+    </section>
+
+    <section class="slide" id="ending">
+      <div class="eyebrow">ending</div>
+      <h2>找到自己真正乐在其中的问题</h2>
+      <p class="sub">让 AI 成为梯子。往哪里爬、看见什么、怎样理解，回到我们自己。</p>
+    </section>
+
+    <section class="slide end-image" id="ali-nino">
+      <figure>
+        <img src="文学何为.png" alt="Ali and Nino 阿里和尼诺">
+        <figcaption>Ali and Nino 阿里和尼诺</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+    const progress = document.querySelector("#progress");
+    const sections = [...document.querySelectorAll(".slide")];
+    const flowNote = document.querySelector("#flowNote");
+
+    window.addEventListener("pointermove", event => {
+      root.style.setProperty("--mx", `${event.clientX}px`);
+      root.style.setProperty("--my", `${event.clientY}px`);
+    }, { passive: true });
+
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${max > 0 ? scrollY / max * 100 : 0}%`;
+    }
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    document.querySelectorAll(".step").forEach(step => {
+      step.addEventListener("click", () => {
+        document.querySelectorAll(".step").forEach(item => item.classList.remove("active"));
+        step.classList.add("active");
+        flowNote.textContent = step.dataset.note;
+      });
+    });
+
+    window.addEventListener("keydown", event => {
+      if (!document.body.classList.contains("slide-mode")) return;
+      const current = sections.findIndex(section => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= innerHeight * .42 && rect.bottom >= innerHeight * .42;
+      });
+      if (["ArrowDown", "PageDown", " "].includes(event.key)) {
+        event.preventDefault();
+        sections[Math.min(current + 1, sections.length - 1)]?.scrollIntoView({ behavior: "smooth" });
+      }
+      if (["ArrowUp", "PageUp"].includes(event.key)) {
+        event.preventDefault();
+        sections[Math.max(current - 1, 0)]?.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  </script>
+</body>
+</html>
