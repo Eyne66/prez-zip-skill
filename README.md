@@ -1,7 +1,7 @@
 # prez-zip-skill
 `prez-zip` 是一个在 Codex 使用的可复用汇报 HTML 生成 Skill。
 
-你只需要专注：你想说什么、想给大家看什么图。把口头汇报稿、PDF、Word、图片和图片位置需求放进一个文件夹，调用这个 Skill，它会帮你生成极简发布会风格的 HTML 演示页。以后的汇报手拿把掐，自用款非常赞，是花了五六个小时调出来的最喜欢的风格。
+你只需要专注：你想说什么、想给大家看什么图。把口头汇报稿、PDF、Word、图片和图片位置需求放进一个文件夹，调用这个 Skill，它会帮你生成极简发布会风格的 HTML 演示页。以后的汇报手拿把掐，自用款非常赞，是花了五六个小时调出来的最喜欢的风格，也可以在本地生成好html之后去找minimax给你做个卫星可点击此链接，就可以手机端访问你的演示啦！
 
 ## 功能亮点
 
@@ -88,21 +88,5 @@ cp -R prez-zip ~/.codex/skills/
 5. Branch 选择 `main`，目录选择 `/root`。
 6. 保存。
 
-示例页面地址通常是：
-
-```text
-https://你的用户名.github.io/prez-zip-skill/examples/yu-jian-report/
-```
-
-Skill 本身的安装文件在：
-
-```text
-prez-zip/
-```
-
-示例网页在：
-
-```text
-examples/yu-jian-report/index.html
-```
+示例页面地址我还没学会怎么弄www
 
